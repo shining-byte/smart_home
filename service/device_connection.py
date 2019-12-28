@@ -1,5 +1,4 @@
 import re
-# from service.device_control import DeviceController, DeviceNotExistException, DeviceNotConnectException
 from tornado.tcpserver import TCPServer
 from tornado.iostream import StreamClosedError
 from models.smartroom import WifiDevice,ClassRoom
