@@ -1,0 +1,100 @@
+<html>
+<head>
+    <title>CIEL云计算实验室</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="{{ static_url('inventory.js') }}"
+            type="application/javascript"></script>
+</head>
+
+<body>
+<div>
+    <h1>CIEL云计算实验室</h1>
+
+    <hr/>
+    <h2>wifi devices</h2>
+</div>
+
+<!--        <img src="{{ static_url('1.jpg') }}" alt="The Definitive Guide to the Internet" />-->
+
+<hr/>
+<!--        <form method="post" action="/mqtt">-->
+<!--              {% module xsrf_form_html() %}-->
+<!--            <p>发送文本(后台自动转码)：<br><input type="text" name="send_data"></p>-->
+<!--            <p><input type="submit" value="下发lora设备"  /></p>-->
+<!--        </form>-->
+
+<div id="wifi">
+    <p>
+        <!--            <form>-->
+        发送指令格式
+        <input type="text" id="wifi_data"
+               value="{'device_name': 'fan-lamp-curtain', 'class': 'C1004', 'fan-1': '0','fan-2': '0','fan-3': '0', 'lamp-1': '0', 'lamp-2': '0','lamp-3': '0', 'curtain-1': '0', 'curtain-2': '0'}"
+               size="150">
+        <!--        </form>-->
+    </p>
+    <p><input type="submit" value="测试wifi设备" id="send-button"/></p>
+</div>
+<p>
+<h2>当前设备状态</h2>
+<form method="post" action="test" name="data">
+    {% raw xsrf_form_html() %}
+    <input type="submit" value="开10楼灯" id="on-lamp" name="on-lamp"/>
+    <input type="submit" value="开10楼1号风扇" id="on-fan-1" name="on-fan-1"/>
+    <input type="submit" value="开10楼2号风扇" id="on-fan-2" name="on-fan-2"/>
+    <input type="submit" value="开10楼3号风扇" id="on-fan-3" name="on-fan-3"/>
+    <p>
+        <input type="submit" value="关10楼的灯" id="off-lamp" name="off-lamp"/>
+        <input type="submit" value="关10楼1号风扇" id="off-fan-1" name="off-fan-1"/>
+        <input type="submit" value="关10楼2号风扇" id="off-fan-2" name="off-fan-2"/>
+        <input type="submit" value="关10楼3号风扇" id="off-fan-3" name="off-fan-3"/>
+    <p>
+        <input type="submit" value="开10楼1号窗帘" id="on-curtain-1" name="on-curtain-1"/>
+        <input type="submit" value="暂停10楼1号窗帘" id="stop-curtain-1" name="stop-curtain-1"/>
+        <input type="submit" value="关10楼1号窗帘" id="of-curtain-1" name="off-curtain-1"/>
+    <p>
+        <input type="submit" value="开7楼的灯" id="on-7-lamp" name="on-7-lamp"/>
+        <input type="submit" value="关7楼的灯" id="off-7-lamp" name="off-7-lamp"/>
+        <input type="submit" value="开7楼的风扇" id="on-7-fan" name="on-7-fan"/>
+        <input type="submit" value="关7楼的风扇" id="off-7-fan" name="off-7-fan"/>
+    <p>
+        <input type="submit" value="开7楼的空调" id="on-7-air" name="on-7-air"/>
+        <input type="submit" value="关7楼的空调" id="off-7-air" name="off-7-air"/>
+    <p>
+        <input type="submit" value="开10楼的空调" id="on-10-air" name="on-10-air"/>
+        <input type="submit" value="关10楼的空调" id="off-10-air" name="off-10-air"/>
+    <hr>
+
+    <input type="submit" value="开启9楼全部设备" id="on-all" name="on-all">
+    <input type="submit" value="开启9楼空调" id="on-09-air" name="on-09-air">
+    <input type="submit" value="开启9楼灯" id="on-09-lamp" name="on-09-lamp">
+    <input type="submit" value="开启9楼窗帘" id="on-09-curtain" name="on-09-curtain">
+    <hr>
+    <input type="submit" value="关闭9楼全部设备" id="off-all" name="off-all">
+    <input type="submit" value="关闭9楼空调" id="off-09-air" name="off-09-air">
+    <input type="submit" value="关闭9楼灯" id="off-09-lamp" name="off-09-lamp">
+    <input type="submit" value="关闭9楼窗帘" id="off-09-curtain" name="off-09-curtain">
+    <hr>
+    <input type="submit" value="开启406设备" id="on-406-all" name="on-406-all">
+    <input type="submit" value="关闭406设备" id="off-406-all" name="off-406-all">
+    <hr>
+    <input type="submit" value="开启511设备" id="on-511-all" name="on-511-all">
+    <input type="submit" value="关闭511设备" id="off-511-all" name="off-511-all">
+</form>
+<ol>
+    {% for device in devices %}
+    {% if device.device_name[0:3] == 'air' %}
+        <li> {{ device.device_name }}教室编号:{{ device.class_number }},温度:{{ device.degree }}, 挡位：{{ device.gear }},模式： {{
+        device.model }}, 状态：{{ device.status }}, 是否在线:{{ device.is_alive }}
+    </li>
+    {% else %}
+        <li> {{ device.device_name }}-----{{ device.device_number }}教室编号:{{ device.class_number }},状态:{{ device.status }},是否在线:{{ device.is_alive }}</li>
+    {% end %}
+    {% end %}
+</ol>
+
+<!--        <div id="remove-from-cart" style="display: none;">-->
+<!--            <p><span style="color: green;">One copy is in your cart.</span></p>-->
+<!--            <p><input type="submit" value="Remove from Cart" id="remove-button" /></p>-->
+<!--        </div>-->
+</body>
+</html>

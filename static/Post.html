@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+    <button id="modify">修改课表</button>
+    <button id="login">登录</button>
+    <button id="logout">注销</button>
+    <button id="get">获取课表</button>
+    <button id="modifySchedule">修改预约</button>
+    <button id="bookroom">预约房间</button>
+    <button id="getRoom">获取房间</button>
+    <button id="getDevices">获取设备</button>
+    <button id="controlDevice">控制设备</button>
+    <button id="quickSwitcher">一键开关</button>
+    <div id="div1"><h2>文本</h2></div>
+    <script>
+    $(document).ready(function() {
+        $("#modify").click(function () {
+            var xsrf = getCookie("_xsrf");
+            $.ajax({
+                method: "post",
+                url: "/setCourse",
+                dataType: 'json',
+                headers: {
+                    "X-XSRFToken": xsrf,
+                },
+                contentType: 'application/json;charset=UTF-8',
+                data: JSON.stringify({
+                    "course": [{
+                        "date": "2019-11-3",
+                        "name": "数学",
+                        "class": "数学一班",
+                        "session": '3',
+                        "where": "D910"
+
+                    }]
+                }),
+                success: function (result) {
+                    $("#div1").html(JSON.stringify(result));
+                }
+            });
+        });
+
+        $("#login").click(function () {
+            var xsrf = getCookie("_xsrf");
+            $.ajax({
+                method: "post",
+                url: "/login",
+                headers: {
+                    "X-XSRFToken": xsrf,
+                },
+                data: {
+                    "account": "123",
+                    "passwd": "123"
+                },
+                success: function (result) {
+                    $("#div1").html(JSON.stringify(result));
+                }
+            });
+        });
+        $("#get").click(function () {
+            var xsrf = getCookie("_xsrf");
+            $.ajax({
+                method: "get",
+                url: "/getCourse",
+                headers: {
+                    "X-XSRFToken": xsrf,
+                },
+                data: {
+                    "date": ""
+                },
+                success: function (result) {
+                    $("#div1").html(JSON.stringify(result));
+                }
+            });
+        });
+        $("#bookroom").click(function () {
+            var xsrf = getCookie("_xsrf");
+            $.ajax({
+                method: "post",
+                url: "/bookRoom",
+                headers: {
+                    "X-XSRFToken": xsrf,
+                },
+                data: {
+                    "date": "2019-11-3",
+                    "where": "D910",
+                    "session": '3'
+
+                },
+                success: function (result) {
+                    $("#div1").html(JSON.stringify(result));
+                }
+            });
+        });
+        $("#logout").click(function () {
+            var xsrf = getCookie("_xsrf");
+            $.ajax({
+                method: "get",
+                url: "/logout",
+                headers: {
+                    "X-XSRFToken": xsrf,
+                },
+                success: function (result) {
+                    $("#div1").html(JSON.stringify(result));
+                }
+            });
+        });
+        $("#modifySchedule").click(function () {
+            var xsrf = getCookie("_xsrf");
+
+            $.ajax({
+                method: "post",
+                url: "/modifySchedule",
+                headers: {
+                    "X-XSRFToken": xsrf,
+                },
+                data: {
+                    "date": "2019-10-10",
+                    "where": "2b401",
+                    "session": 3
+
+                },
+                success: function (result) {
+                    $("#div1").html(JSON.stringify(result));
+                }
+            });
+        });
+          $("#getRoom").click(function () {
+                $.ajax({
+                    method: "get",
+                    url: "/getClassRoom",
+
+                    success: function (result) {
+
+                        $("#div1").html(JSON.stringify(result));
+                    }
+                });
+            });
+           $("#getDevices").click(function () {
+                $.ajax({
+                    method: "get",
+                    url: "/getDevices",
+                    data:{
+                        'room':'D712'
+                    },
+                    success: function (result) {
+
+                        $("#div1").html(JSON.stringify(result));
+                    }
+                });
+            });
+            $("#controlDevice").click(function () {
+                $.ajax({
+                    method: "post",
+                    url: "/controlDevice",
+                    data:{
+                        'room':'D712',
+                        'device_name':'lamp-1',
+                        'status':'1'
+                    },
+                    success: function (result) {
+                       
+                        $("#div1").html(JSON.stringify(result));
+                    }
+                });
+            });
+             $("#quickSwitcher").click(function () {
+                $.ajax({
+                    method: "post",
+                    url: "/quickSwitcher",
+                    data:{
+                        'room':'D910',
+                        'status':'0'
+                    },
+                    success: function (result) {
+
+                        $("#div1").html(JSON.stringify(result));
+                    }
+                });
+            });
+    });
+function getCookie(name) {
+    var c = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+    return c ? c[1] : undefined;
+    }
+</script>
+</body>
+</html>

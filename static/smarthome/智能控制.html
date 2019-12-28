@@ -1,0 +1,512 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" type="text/css" href="智能控制css/main.css"> 
+	<title>智能控制</title>
+	<script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript">
+		function test(){
+//var xsrf = getCookie("_xsrf");
+//console.log("document.cookie.match("\\b" + name + "=([^;]*)\\b");");
+var httpRequest = new XMLHttpRequest();//第一步：创建需要的对象
+httpRequest.open('POST', 'https://47.92.222.94/setCourse', true); //第二步：打开连接
+httpRequest.setRequestHeader("Content-type","application/json");//设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）var obj = { name: 'zhansgan', age: 18 };
+httpRequest.setRequestHeader("X-XSRFToken","xsrf");
+httpRequest.setRequestHeader("Content-type","application/json");
+httpRequest.send(JSON.stringify(tj()));//发送请求 将json写入send中
+httpRequest.onreadystatechange = function () {//请求后的回调接口，可将请求成功后要执行的程序写在其中
+    if (httpRequest.readyState == 4 && httpRequest.status == 200) {//验证请求是否发送成功
+        var json = httpRequest.responseText;//获取到服务端返回的数据
+        console.log(json);
+    }
+};
+
+	}
+		function  tj(obj) {
+			var TextObj =   
+        {   
+          "course":"55",     
+          "name":document.getElementById("JsonList-td-textarea").value,
+          "date":"8989",   
+          "session":"898989"
+        }
+        return TextObj;  
+        // console.log(1);
+	function submitData() {
+	    var tb = document.getElementById(IDArray[0]);
+	    if (tb)
+	     {
+	    var rows = tb.rows;
+	    var ohjInfo;
+	    for (var i = 1; i < rows.length; i++) {
+	        var name = rows[i].cells[1].innerText;
+	        var course = rows[i].cells[1].innerText;
+	        var where = rows[i].cells[1].innerText;
+	        TextObj.name = name;
+	        TextObj.course = course;
+	        TextObj.where = where;
+	        var objStr = Serialize(TextObj);  // js对象转化成json数据格式
+	        ohjInfo += objStr;
+	    }
+	    return ohjInfo;
+	    }
+	}
+	// console.log(1);
+	// function Serialize(obj){       
+	//      switch(obj.constructor){       
+	//          case Object:       
+	//              var str = "{";       
+	//              for(var o in obj){       
+	//                  str += o + ":" + Serialize(obj[o]) +",";       
+	//              }       
+	//              if(str.substr(str.length-1) == ",")       
+	//                 str = str.substr(0,str.length -1);       
+	//               return str + "}";       
+	//               break;       
+	//           case Array:                   
+	//               var str = "[";       
+	//               for(var o in obj){       
+	//                   str += Serialize(obj[o]) +",";       
+	//               }       
+	//               if(str.substr(str.length-1) == ",")       
+	//                   str = str.substr(0,str.length -1);       
+	//               return str + "]";       
+	//               break;       
+	//           // case Boolean:       
+	//           //     return "\"" + obj.toString() + "\"";       
+	//           //     break;       
+	//           case Date:       
+	//               return "\"" + obj.toString() + "\"";       
+	//               break;       
+	//           case Function:       
+	//               break;       
+	//          case Number:              
+	//               return "\"" + obj.toString() + "\"";       
+	//               break;        
+	//           case String:      
+	//              return "\"" + obj.toString() + "\"";       
+	//               break;           
+	//       }       
+	//   } 
+	  // console.log(1);
+		function getCookie(name) {
+ 		//var c = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+		    return c ? c[1] : undefined;
+		} 
+
+	</script>
+</head>
+<body>
+<!-- 课表录入 -->
+	<div id="lr-page" class="container" style="display:none;">
+		<div class="leftbigbox" >
+			<div class="logo">| | |</div>
+			<nav>
+				<ul>
+					<li><!-- <img src="智能控制images/设备管理.png" width="20%" height="20%"> --><a href="#/sbgl">设备管理</a></li>
+					<li><!-- <img src="智能控制images/设备管理信息.png" > --><a href="#/sbglxx">设备管理信息</a></li>
+					<li><!-- <img src="智能控制images/查询.png"> --><a href="#/kbcx">课表查询</a></li>
+					<li><!-- <img src="智能控制images/课表录入.png"> --><a href="#/kblr">课表录入</a></li>
+					<li><!-- <img src="智能控制images/用户管理.png"> --><a href="#/yhgl">用户管理</a></li>
+					<li><!-- <img src="智能控制images/后台管理.png"> --><a href="#/htgl">后台管理</a></li>
+					<li><a href="#/zkzs">智控展示</a></li>
+				</ul>
+			</nav>
+		</div>
+		<div class="rightbigbox">
+			<div class="headbox">
+				<div class="gailan">广州新联电力科技有限公司</div>
+			</div>
+			<div id="wd-page"   class="lastbox">
+				<div class="leftsmallbox">
+					<div class="kebiaochaxun">课表录入</div>
+					<div class="leftsmallbox-nav">
+						<ul>
+							<li><a href="#/wdkb">我的课表</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="rightsmallbox">
+					<div class="headsmallbox">
+						
+					</div>
+					<div class="lastsmallbox">
+						<div class="kebiao">  
+							<div class="find">
+								校区：<select>
+									<option>官渡</option>
+									<option>西城</option>
+									</select>
+								实验室：<select>
+									<option>电子电工实验室</option>
+									<option>电子电工实训室</option>
+								</select>
+								学期：<select>
+									<option>2019-2010-1</option>
+									<option></option>
+								</select>
+								周次：<select>
+									<option>第一周</option>
+									<option>第二周</option>
+									<option>第三周</option>
+									<option>第四周</option>
+									<option>第五周</option>
+									<option>第六周</option>
+									<option>第七周</option>
+									<option>第八周</option>
+									<option>第九周</option>
+									<option>第十周</option>
+									<option>第十一周</option>
+									<option>第十二周</option>
+									<option>第十三周</option>
+									<option>第十四周</option>
+									<option>第十五周</option>
+									<option>第十六周</option>
+									<option>第十七周</option>
+									<option>第十八周</option>
+									<option>第十九周</option>
+								</select>
+								<!-- <button id="btn" onclick="ad">保存课表</button> -->
+								<input type="button" id="btn" value="保存按钮" onclick="tj('obj')"></input>
+							</div>
+							<div class="entry">
+								<table id="JsonList" border="0.1rem solid #ffffff">
+									<tr>
+										<th></th>
+										<th>日 10/6</th>
+										<th>一 10/7</th>
+										<th>二 10/8</th>
+										<th>三 10/9</th>
+										<th>四 10/10</th>
+										<th>五 10/11</th>
+										<th>六 10/12</th>					
+									</tr>
+									<tr>
+										<td style="background-color:#b6dbfc">1~2节</td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+									</tr>
+									<tr>
+										<td style="background-color:#b6dbfc">3~4节</td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+									</tr>
+									<tr>
+										<td style="background-color:#b6dbfc">5~6节</td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td> 
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+									</tr>
+									<tr>
+										<td style="background-color:#b6dbfc">7~8节</td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+									</tr>
+									<tr>
+										<td style="background-color:#b6dbfc">9~10节</td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+										<td><textarea id="JsonList-td-textarea"></textarea></td>
+									</tr>
+								</table>	
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- 课表查询 -->
+<div id="cx-page" class="container" style="display:none;">
+		<div class="leftbigbox" >
+			<div class="logo">| | |</div>
+			<nav>
+				<ul>
+					<li><!-- <img src="智能控制images/设备管理.png" width="20%" height="20%"> --><a href="#/sbgl">设备管理</a></li>
+					<li><!-- <img src="智能控制images/设备管理信息.png" > --><a href="#/sbglxx">设备管理信息</a></li>
+					<li><!-- <img src="智能控制images/查询.png"> --><a href="#/kbcx">课表查询</a></li>
+					<li><!-- <img src="智能控制images/课表录入.png"> --><a href="#/kblr">课表录入</a></li>
+					<li><!-- <img src="智能控制images/用户管理.png"> --><a href="#/yhgl">用户管理</a></li>
+					<li><!-- <img src="智能控制images/后台管理.png"> --><a href="#/htgl">后台管理</a></li>
+					<li><a href="#/zkzs">智控展示</a></li>
+				</ul>
+			</nav>
+		</div>
+		<div class="rightbigbox">
+			<div class="headbox">
+				<div class="gailan">广州新联电力科技有限公司</div>
+			</div>
+			<div id="wd-page" class="lastbox">
+				<div class="leftsmallbox">
+					<div class="kebiaochaxun">课表查询</div>
+					<div class="leftsmallbox-nav">
+						<ul>
+							<li><a href="#/wdkb">我的课表</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="rightsmallbox">
+					<div class="headsmallbox">
+						
+					</div>
+					<div class="lastsmallbox">
+						<div class="kebiao">  
+							<div class="find">
+								校区：<select>
+									<option>官渡</option>
+									<option>西城</option>
+									</select>
+								实验室：<select>
+									<option>电子电工实验室</option>
+									<option>电子电工实训室</option>
+								</select>
+								学期：<select>
+									<option>2019-2010-1</option>
+									<option></option>
+								</select>
+								周次：<select>
+									<option>第一周</option>
+									<option>第二周</option>
+									<option>第三周</option>
+									<option>第四周</option>
+									<option>第五周</option>
+									<option>第六周</option>
+									<option>第七周</option>
+									<option>第八周</option>
+									<option>第九周</option>
+									<option>第十周</option>
+									<option>第十一周</option>
+									<option>第十二周</option>
+									<option>第十三周</option>
+									<option>第十四周</option>
+									<option>第十五周</option>
+									<option>第十六周</option>
+									<option>第十七周</option>
+									<option>第十八周</option>
+									<option>第十九周</option>
+								</select>
+								<!-- <button id="btn" onclick="ad">保存课表</button> -->
+								<input type="button" id="btn" value="查询按钮" onclick="hd('obj')"></input>
+							</div>
+							<div class="entry">
+								<table id="JsonList" border="0.1rem solid #ffffff">
+									<tr>
+										<th></th>
+										<th>日 10/6</th>
+										<th>一 10/7</th>
+										<th>二 10/8</th>
+										<th>三 10/9</th>
+										<th>四 10/10</th>
+										<th>五 10/11</th>
+										<th>六 10/12</th>					
+									</tr>
+									
+								</table>	
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+    function hd(obj){
+	 $(function(){
+             $.ajax({
+            url:'https://47.92.222.94/getCourse',
+            type:'get',
+            dataType:'json',
+            success:function(data){
+                $.each(data.data,function(index,item){
+                    var tr;
+                    tr='<td>'+item.course +item.name+item.data+item.session+'</td>';
+                    $("#JsonList").append('<tr>'+tr+'</tr>')
+                })
+            }
+	})
+		   })}
+		   </script>
+<!-- 智控展示 -->
+<div id="zs-page" class="container" style="display:block;">
+		<div class="leftbigbox" >
+			<div class="logo">| | |</div>
+			<nav>
+				<ul>
+					<li><!-- <img src="智能控制images/设备管理.png" width="20%" height="20%"> --><a href="#/sbgl">设备管理</a></li>
+					<li><!-- <img src="智能控制images/设备管理信息.png" > --><a href="#/sbglxx">设备管理信息</a></li>
+					<li><!-- <img src="智能控制images/查询.png"> --><a href="#/kbcx">课表查询</a></li>
+					<li><!-- <img src="智能控制images/课表录入.png"> --><a href="#/kblr">课表录入</a></li>
+					<li><!-- <img src="智能控制images/用户管理.png"> --><a href="#/yhgl">用户管理</a></li>
+					<li><!-- <img src="智能控制images/后台管理.png"> --><a href="#/htgl">后台管理</a></li>
+					<li><a href="#/zkzs">智控展示</a></li>
+				</ul>
+			</nav>
+		</div>
+		<div class="rightbigbox">
+			<div class="headbox">
+				<div class="gailan">广州新联电力科技有限公司</div>
+			</div>
+			<div id="gd-page" class="lastbox">
+				<div class="leftsmallbox">
+					<div class="kebiaochaxun">智控介绍</div>
+					<div class="leftsmallbox-nav">
+						<ul>
+							<li><a href="#/gd">官渡</a></li>
+							<li><a href="#/xc">西城</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="rightsmallbox">
+					<div class="headsmallbox">		
+					</div>
+					<div class="lastsmallbox">
+						<div class="kebiao">  
+							<div class="find">
+								参观时间：<select>
+									<option>2019年11月14号</option>
+									<option>2019年11月15号</option>
+									</select>
+								实验室：<select>
+									<option>电子电工实验室</option>
+									<!-- <option>电子电工实训室</option> -->
+								</select>
+								智控展示：<input type="checkbox" style="background-color:#cee3fe"></input>
+							</div>
+							<div class="entry">
+								<table id="JsonList-td-textarea" border="0.1rem solid #ffffff">		
+								</table>	
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- <div class="headbox">
+				<div class="gailan">概览</div>
+			</div>
+			<div id="xc-page" class="lastbox">
+				<div class="leftsmallbox">
+					<div class="kebiaochaxun">智控介绍</div>
+					<div class="leftsmallbox-nav">
+						<ul>
+							<li><a href="#/gd">官渡</a></li>
+							<li><a href="#/xc">西城</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="rightsmallbox">
+					<div class="headsmallbox">
+						
+					</div>
+					<div class="lastsmallbox">
+						<div class="kebiao">  
+							<div class="find">
+								参观时间：<select>
+									<option>2019年11月14号</option>
+									<option>2019年11月15号</option>
+									</select>
+								实验室：<select>
+									<option>电子电工实验室</option>
+									<option>电子电工实训室</option>
+								</select>
+								智控展示：<input type="checkbox" style="background-color:#cee3fe"></input>
+								<input type="number"></input>
+							</div>
+							<div class="entry">
+								<table id="JsonList-td-textarea" border="0.1rem solid #ffffff">		
+								</table>	
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> -->
+		</div>
+	</div>
+<script type="text/javascript" style="display: none;"> 
+function Router(){
+        this.routes={};
+        this.currentURL='';
+    }
+    //实现路由跳转
+    Router.prototype.route = function(path,callback){
+        this.routes[path] = callback || function(){};
+    }
+    //propertype:向对象添加属性和方法
+    Router.prototype.refresh = function(){
+        //获取hash #xxx
+        this.currentURL = location.hash.slice(1) || '/kblr';
+        this.routes[this.currentURL]();
+
+    }
+    //定义路由初始化
+    Router.prototype.init = function () {
+        window.addEventListener('load',this.refresh.bind(this),false);
+        window.addEventListener('hashchange',this.refresh.bind(this),false);
+        console.log("445")
+    }
+
+    function display_page(id){
+        //$(".content").eq(id)指定的元素被显示，而其他的隐藏
+        $(".container").eq(id).show().siblings().hide();
+        console.log("445")
+    }
+
+    function display(id){
+        //$(".content").eq(id)指定的元素被显示，而其他的隐藏
+        $(".lastbox").eq(id).show().siblings().hide();
+        console.log("445")
+    }
+
+    window.Router = new Router();
+
+    Router.route('/kblr',function(){
+        display_page(0);
+    })
+
+    Router.route('/kbcx',function(){
+        display_page(1);
+    })
+
+    Router.route('/zkzs',function(){
+        display_page(2);
+    })
+
+    Router.route('/wdkb',function(){
+        display(0);
+    })
+    Router.route('/gd',function(){
+        display(0);
+    })
+    Router.route('/xc',function(){
+        display(1);
+    })
+    window.Router.init();
+    </script>
+</body>
+</html>
