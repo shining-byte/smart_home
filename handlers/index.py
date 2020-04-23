@@ -24,7 +24,7 @@ class TestIndexHandler(BaseHandler):
         # #             temperature = str(struct.unpack('!f', DATA[0:4])[0])[:5]
         # #             humidity = str(struct.unpack('!f', DATA[4:8])[0])[:5]
         # obj2 = await self.application.objects.create_or_get(LoraDevice, device_name='36343747104a002e')
-        self.prepare()
+        # self.prepare()
         devices = WifiDevice.select()
 
         # print(obj2[0].data)
@@ -34,18 +34,18 @@ class TestIndexHandler(BaseHandler):
                           devices=devices,
                           # temperature2=int(obj2[0].data[:4], 16)/10, humidity2=int(obj2[0].data[5:], 16)/10
                           )
-        self.on_finish()
-    def prepare(self):
-        if database.is_closed():
-            database.connect()
-        # else:
-        #     database.connect()
-        return super(TestIndexHandler, self).prepare()
-
-    def on_finish(self):
-        if not database.is_closed():
-            database.close()
-        return super(TestIndexHandler, self).on_finish()
+    #     self.on_finish()
+    # def prepare(self):
+    #     # if database.is_closed():
+    #     database.connect()
+    #     # else:
+    #     #     database.connect()
+    #     return super(TestIndexHandler, self).prepare()
+    #
+    # def on_finish(self):
+    #     if not database.is_closed():
+    #         database.close()
+    #     return super(TestIndexHandler, self).on_finish()
 
 
 class TestHandler(BaseHandler):

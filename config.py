@@ -8,11 +8,11 @@ port=9004
 BASE_DIR=os.path.dirname(__file__)
 database = MySQLDatabase('tornado_db', **{'charset': 'utf8', 'use_unicode': True, 'host': 'localhost', 'port': 3306,
                                           'user': 'tornado_user', 'password': 'ciel2019'})
-logging.basicConfig(level=logging.INFO,
+logging.basicConfig(level=logging.ERROR,
                     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                     datefmt='%a, %d %b %Y %H:%M:%S',
-                     # filename='tornado.log',
-                     # filemode='w'
+                     filename='tornado.log',
+                     filemode='w'
                     )
 # logger = logging.getLogger(__name__)
 #

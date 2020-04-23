@@ -2,11 +2,21 @@
 import base64,uuid
 from service.singlemode import Singleton
 from tornado.web import RequestHandler
-from config import  logging
+from config import  logging, database
 
 # 目前缺陷，没有会话过期清除机制
 session={}
 class BaseHandler(RequestHandler):
+    def prepare(self):
+        if database.is_closed():
+            database.connect()
+        return super(BaseHandler, self).prepare()
+
+    def on_finish(self):
+        if not database.is_closed():
+            database.close()
+        return super(BaseHandler, self).on_finish()
+
     def get_current_user(self):
         # 判断teacher是否存在，存在则以登录,不存在返回None
         self.teacher=self.get_session()["teacher"]

@@ -16,7 +16,8 @@ class getDevices(BaseHandler):
                 "fan":"1",
                 "lamp":"2",
                 "air":"3",
-                "curtain":"4"
+                "curtain":"4",
+                "switch" : "5"
             }
             for device in devices:
                 device_dic={}
