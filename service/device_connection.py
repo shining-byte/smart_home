@@ -142,10 +142,6 @@ class TcpHandler(TCPServer):
                                 # match_list = re.findall('switch-\d', str(msg))
                                 print('开关动作')
                                 # 匹配lamp-1,fan-1...
-                                # devices = WifiDevice.select() \
-                                #     .where((WifiDevice.class_number == msg['class']) & (
-                                #             WifiDevice.device_name == msg['device_name'])).execute()
-                                # list_ = [device.device_number for device in devices]
                                 if msg['status'] == '1':
                                     print('action ==1 ')
                                     send_data = '''{'device_name': 'fan-lamp-curtain', 'class': 'C1004', 'lamp-1': '1', 'lamp-2': '1','lamp-3': '1', 'lamp-4': '1', 'lamp-5': '1'}'''
@@ -312,31 +308,19 @@ class TcpHandler(TCPServer):
                     #     logging.info("处理单片机返回非json数据：{}".format(msg))
                     #     print(msg)
         except Exception as e:
-            print('错误信息{}'.format(e))
+            print('tcp连接错误信息{}'.format(e))
             # 掉线处理
             for key, value in TCP_CONNECTION.items():
                 if stream == value:
                     # TCP_CONNECTION.pop(key)
                     print(key)
             for value in info_dict.values():
-                # value = eval(value)
-                # print(value, '掉线')
-
-                # TCP_CONNECTION.pop(value['device_name'] +'+' +value['class'])
                 if (address[1] in value.values()):
-                    print('处理')
+                    print('数据库修改为掉线')
                     # print(value['device_name'], value['class'])
                     # wifi设备掉线,数据更改数据库设备状态
-                    update = WifiDevice.update(is_alive=0).where(port=address[1])
+                    update = WifiDevice.update(is_alive=0).where(WifiDevice.port == address[1])
                     update.execute()
-                    # update = WifiDevice.get_or_create(port=address[1])
-                    # print(update[0])
-                    # update.execute()
-            # wifi tcp断开后会出错, 根据address查询数据库并修改状态
-            # print('掉线')
-
-            # print("TcpHandler---------{}".format(e))
-
 
 async def heartbeat():
     """
@@ -344,18 +328,9 @@ async def heartbeat():
     :return:
     """
     try:
-
-
-        # 这里是防止硬件断电，断网。tcp链路还存在，切断心跳包。
+        # 这里是防止硬件断电，断网。tcp链路还存在，切断心跳包下发。
 
         global TCP_CONNECTION2, info_dict
-        # print('==============')
-        # print(TCP_CONNECTION)
-        # print(TCP_CONNECTION2)
-        # global TCP_CONNECTION
-        # TCP_CONNECTION2 = {}
-        # print(TCP_CONNECTION)
-        # print(TCP_CONNECTION2)
         if TCP_CONNECTION != {} and TCP_CONNECTION2 != {}:
             tcp_dead_list = cmp_dict(TCP_CONNECTION, TCP_CONNECTION2)
             for i in tcp_dead_list:
@@ -365,17 +340,10 @@ async def heartbeat():
                 update = WifiDevice.update(is_alive=0).where(
                     (WifiDevice.device_name == split_list[0]) & (WifiDevice.class_number == split_list[1]))
                 update.execute()
-                # WifiDevice.select().where(WifiDevice.device_number)
                 print('pop')
                 print(i)
                 info_dict.pop(split_list[0]+'+'+split_list[1])
                 TCP_CONNECTION.pop(i)
-            # TCP_CONNECTION = TCP_CONNECTION2
-            # print(tcp_dead_list)
-        # for i in tcp_dead_list:
-        #     print(i)
-        #
-        #     TCP_CONNECTION.pop(i)
             print('clear')
             TCP_CONNECTION2.clear()
         for key, value in list(TCP_CONNECTION.items()):
@@ -385,7 +353,7 @@ async def heartbeat():
     except Exception as e:
         # TCP_CONNECTION.pop(key)
 
-        print('错误信息{}'.format(e))
+        print('心跳包下发错误信息{}'.format(e))
 
 
 def cmp_dict(dict1, dict2):
